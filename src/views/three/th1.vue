@@ -3,18 +3,13 @@
  * @Author: louiebb
  * @Date: 2020-08-11 17:35:49
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-19 14:30:11
+ * @LastEditTime: 2020-08-19 17:53:35
 -->
 <template>
   <div class="page-th1">
     <h1>Creating a cube</h1>
     <h4>创建一个立方体</h4>
     <div class="tool">
-      <!-- <el-button plain @click="createdCube">添加立方体</el-button> -->
-      <el-button type="primary" plain @click="animate">渲染场景</el-button>
-      <el-button type="success" plain @click="cameraPosition('x')">摄像头x</el-button>
-      <el-button type="info" plain @click="cameraPosition('y')">摄像头y</el-button>
-      <el-button type="warning" plain @click="cameraPosition('z')">摄像头z</el-button>
       <el-button type="danger" plain>危险按钮</el-button>
     </div>
     <div class="container"></div>
@@ -23,6 +18,7 @@
 
 <script>
 import * as THREE from 'three';
+import * as dat from 'dat.gui';
 // import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 export default {
@@ -38,16 +34,36 @@ export default {
         h:window.innerHeight - 300
       },
       cp:{
-        fov:0 ,// 角度
+        fov:50 ,// 角度 最小值为0，最大值为180，默认值为50，实际项目中一般都定义45
         aspect:0, // 宽高比
-        near:0, // 近面
-        far:0 // 远面
+        near:1, // 近面
+        far:100 // 远面
       },
       // 创建体形
       geometry:null,
       material:null,
       cube:null,
-      mesh:null
+      mesh:null,
+      // 控制器
+      controls:null,
+      gui:null,
+      cm:{
+        ps:{
+          x:0,
+          y:0,
+          z:15
+        },
+        la:{
+          x:0,
+          y:0,
+          z:0
+        },
+        us:{
+          x:0,
+          y:0,
+          z:0
+        }
+      }
       
     };
   },
@@ -55,12 +71,21 @@ export default {
     init(){
       this.initRenderer();
       this.initScene();
+      this.initAxis();
       this.initCamera();
       this.initMesh();
+      this.initGui();
+
       this.animate();
     },
-    cameraPosition(v){
-      this.camera.position[v] += 5;
+    initAxis(){
+      var axis = new THREE.AxisHelper(3);
+      this.scene.add(axis);
+    },
+    fovFun(){
+      this.cp.fov +=10
+      console.log(this.cp.fov)
+      this.camera.setFocalLength(this.cp.fov)
     },
      //初始化渲染器
     initRenderer() {
@@ -77,11 +102,13 @@ export default {
       this.cp={
         fov:45,// 角度
         aspect:this.inner.w/this.inner.h, // 宽高比
-        near:0.1, // 近面
+        near:1, // 近面
         far:200 // 远面
       }
       this.camera = new THREE.PerspectiveCamera(this.cp.fov,this.cp.aspect,this.cp.near,this.cp.far); //实例化相机
-      this.camera.position.set(0, 0, 15);
+      this.cameraPosition();
+      this.cameraUp();
+      this.cameraLookAt();
     },
     //创建模型
     initMesh() {
@@ -100,10 +127,89 @@ export default {
     },
     animate() {
         requestAnimationFrame(this.animate); //循环调用函数
-        this.mesh.rotation.x += 0.01; //每帧网格模型的沿x轴旋转0.01弧度
-        this.mesh.rotation.y += 0.02; //每帧网格模型的沿y轴旋转0.02弧度
-        this.renderer.render(this. scene, this.camera ); //渲染界面
+        // this.mesh.rotation.x += 0.005; //每帧网格模型的沿x轴旋转0.005弧度
+        // this.mesh.rotation.y += 0.015; //每帧网格模型的沿y轴旋转0.015弧度
+        this.renderer.render(this.scene, this.camera ); //渲染界面
     },
+    cameraPosition(){
+       let {x,y,z}  = this.cm.ps
+      this.camera.position.set(x,y,z);
+    },
+    cameraUp(){
+        let {x,y,z} = this.cm.us
+        // this.camera.up = new THREE.Vector3( x,y,z );
+        this.camera.up.x = x
+        this.camera.up.y = y
+        this.camera.up.z = z
+        console.log(this.camera.up)
+    },
+    cameraLookAt(){
+      // 相机对象指向坐标原点，scene.position的默认是new THREE.Vector3(0,0,0)
+      // camera.lookAt(scene.position);
+      // 相机对象指向一个网格模型对象Mesh，渲染后Mesh会显示到Canvas画布的正中间
+      // camera.lookAt(Mesh.position);
+      // 直接设置具体的坐标值
+      // camera.lookAt(0,0,0);
+      // 通过三维向量直接设置坐标值
+      // camera.lookAt(new THREE.Vector3(10,0,20));
+       let {x,y,z}  = this.cm.la
+      this.camera.lookAt(x,y,z);
+    },
+    cameraP(v){
+      // this.camera.setFocalLength(this.cp.fov)
+      this.camera[v] = this.cp[v]
+      this.camera.updateProjectionMatrix()
+    },
+    initGui() {
+      this.controls = {
+        positionX:0,
+        positionY:0,
+        positionZ:0
+      };
+
+      // add GUI controls
+      this.gui = new dat.GUI();
+      var f = this.gui.addFolder('Camera');
+      f.add(this.cp, "fov").min(5).max(175).onChange(()=>{this.cameraP('fov')});
+      f.add(this.cp, "near").min(-10).max(10).onChange(()=>{this.cameraP('near')});
+      f.add(this.cp, "far").min(1).max(1000).onChange(()=>{this.cameraP('far')});
+      
+      f = this.gui.addFolder('Camera LookAt');
+      f.add(this.cm.la, "x").min(-100).max(100).onChange(this.cameraLookAt);
+      f.add(this.cm.la, "y").min(-100).max(100).onChange(this.cameraLookAt);
+      f.add(this.cm.la, "z").min(-100).max(100).onChange(this.cameraLookAt);
+      
+      f = this.gui.addFolder('Camera Position');
+      f.add(this.cm.ps, "x").min(-100).max(100).onChange(this.cameraPosition);
+      f.add(this.cm.ps, "y").min(-100).max(100).onChange(this.cameraPosition);
+      f.add(this.cm.ps, "z").min(-100).max(100).onChange(this.cameraPosition);
+      f = this.gui.addFolder('Camera Up');
+      f.add(this.cm.us, "x").min(-10).max(10).step(0.1).onChange(this.cameraUp);
+      f.add(this.cm.us, "y").min(-10).max(10).step(0.1).onChange(this.cameraUp);
+      f.add(this.cm.us, "z").min(-10).max(10).step(0.1).onChange(this.cameraUp);
+      f.open();
+
+      // f = this.gui.addFolder('Rendering');
+      // f.add(this.cube.style, "drawmode", ["point", "wireframe", "solid"]);
+      // f.add(this.cube.style, "shademode", ["plain", "lightsource"]);
+      // f.add(this.cube.style, "fillmode", ["fill", "filltwice", "inflate", "fillstroke", "hiddenline"]);
+      // f.open();
+
+      f = this.gui.addFolder('Mesh Position');
+      f.add(this.controls, "positionX", -10, 10).onChange(this.updatePosition);
+      f.add(this.controls, "positionY", -10, 10).onChange(this.updatePosition);
+      f.add(this.controls, "positionZ", -10, 10).onChange(this.updatePosition);
+
+
+      // this.gui = new dat.GUI({ autoPlace: false });
+      // this.gui.domElement.id = 'gui';
+      // this.gui.add(this.controls, "positionX", -10, 10).onChange(this.updatePosition);
+      // this.gui.add(this.controls, "positionY", -10, 10).onChange(this.updatePosition);
+      // this.gui.add(this.controls, "positionZ", -10, 10).onChange(this.updatePosition);
+    },
+    updatePosition() {
+      this.mesh.position.set(this.controls.positionX, this.controls.positionY, this.controls.positionZ);
+    }
   },
   mounted() {
     this.init();
@@ -114,4 +220,5 @@ export default {
 .tool{
   margin: 10px 0;
 }
+#gui { position: absolute; top: 2px; left: 2px }
 </style>

@@ -10,6 +10,7 @@
   "dependencies": {
     "babel-plugin-component": "^1.1.1",
     "core-js": "^3.6.5",
+    "dat.gui": "^0.7.7",
     "element-ui": "^2.13.2",
     "node-sass": "^4.14.1",
     "sass-loader": "^9.0.3",
