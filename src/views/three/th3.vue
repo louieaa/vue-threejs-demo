@@ -3,7 +3,7 @@
  * @Author: louiebb
  * @Date: 2020-08-11 17:35:49
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-19 11:43:55
+ * @LastEditTime: 2020-08-19 14:03:31
 -->
 <template>
   <div class="page-th2">
@@ -105,31 +105,16 @@ export default {
       // 获取屏幕可视范围
       this.handleGetWindowInner();
       // SCENE
-      this.scene = new THREE.Scene();
-      this.scene.background = new THREE.Color( '#000000' );
-      this.scene.fog = new THREE.Fog( '#000000', 250, 1400 );
+      this.initScene()
       // CAMERA
-      this.cp={
-        fov:30,// 角度
-        aspect:this.w/this.h, // 宽高比
-        near:1, // 近面
-        far: 1500 // 远面
-      }
-      this.camera = new THREE.PerspectiveCamera(this.cp.fov,this.cp.aspect,this.cp.near,this.cp.far);
-      this.camera.position.set( 0, 400, 700 );
-      this.cameraTarget = new THREE.Vector3( 0, 150, 0 );
-      // this.camera.lookAt( 0, 0, 0 )
+      this.initCamera()
 
       // LIGHTS 灯光
-      var dirLight = new THREE.DirectionalLight( '#f60f60', 0.125 );
-			dirLight.position.set( 0, 0, 1 ).normalize();
-      this.scene.add( dirLight );
-      this.pointLight = new THREE.PointLight( 0xffffff, 1.5 );
-			this.pointLight.position.set( 0, 100, 90 );
-      this.scene.add( this.pointLight );
+      this.initDirLight()
 
       // Get text from hash
       var hash = document.location.hash.substr( 1 );
+      // console.log(document.location.hash,hash,666)
       if ( hash.length !== 0 ) {
         var colorhash = hash.substring( 0, 6 );
         var fonthash = hash.substring( 6, 7 );
@@ -151,7 +136,7 @@ export default {
 
       } else {
         this.pointLight.color.setHSL( Math.random(), 1, 0.5 );
-        this.hex = this.decimalToHex( this.pointLight.color.getHex() );
+        this.hex = this.decimalToHex( this.pointLight.color.getHex());
       }
       this.materials = [
         new THREE.MeshPhongMaterial( { color: 0xffffff, flatShading: true } ), // front
@@ -184,6 +169,34 @@ export default {
       this.stats.domElement.style.top = '0px';
       this.stats.domElement.style.left = '150px';
       this.container.appendChild( this.stats.dom );
+    },
+    // 场景加载
+    initScene(){
+      this.scene = new THREE.Scene();
+      this.scene.background = new THREE.Color( '#000000' );
+      this.scene.fog = new THREE.Fog( '#000000', 250, 1400 );
+    },
+    // 相机加载
+    initCamera(){
+      this.cp={
+        fov:30,// 角度
+        aspect:this.w/this.h, // 宽高比
+        near:1, // 近面
+        far: 1500 // 远面
+      }
+      this.camera = new THREE.PerspectiveCamera(this.cp.fov,this.cp.aspect,this.cp.near,this.cp.far);
+      this.camera.position.set( 0, 400, 700 );
+      this.cameraTarget = new THREE.Vector3( 0, 150, 0 );
+      // this.camera.lookAt( 0, 0, 0 )
+    },
+    // 灯光
+    initDirLight(){
+      var dirLight = new THREE.DirectionalLight( '#f60f60', 0.125 );
+			dirLight.position.set( 0, 0, 1 ).normalize();
+      this.scene.add( dirLight );
+      this.pointLight = new THREE.PointLight( '#69f68f', 1.5 );
+			this.pointLight.position.set( 0, 100, 90 );
+      this.scene.add( this.pointLight );
     },
     boolToNum( b ) {
       return b ? 1 : 0;
@@ -400,7 +413,7 @@ export default {
         // console.log(i,this.fontMap[ i ])
         this.reverseFontMap[ this.fontMap[ i ] ] = i;
       }
-      console.log(this.reverseFontMap,777)
+      // console.log(this.reverseFontMap,777)
     },
   },
   mounted() {
