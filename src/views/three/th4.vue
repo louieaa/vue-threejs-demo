@@ -3,7 +3,7 @@
  * @Author: louiebb
  * @Date: 2020-08-19 18:12:47
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-20 14:01:12
+ * @LastEditTime: 2020-08-20 16:51:16
 -->
 <template>
   <div class="page-th4">
@@ -210,7 +210,7 @@ export default {
         this.scene.remove(this.gltfModel);
       }
       this.loader = new GLTFLoader();
-      this.loader.load('/loader/gltf/wu/scene.gltf',  (gltf) =>{
+      this.loader.load('/server/loader/gltf/wu/scene.gltf',  (gltf) =>{
         gltf.scene.scale.set(.5,.5,.5);
         this.gltfModel = gltf.scene;
         this.scene.add(gltf.scene);
@@ -221,7 +221,7 @@ export default {
         this.scene.remove(this.gltfModel);
       }
       this.loader = new GLTFLoader();
-      this.loader.load('/loader/gltf/car/scene.gltf',  (gltf) =>{
+      this.loader.load('/server/loader/gltf/car/scene.gltf',  (gltf) =>{
         gltf.scene.scale.set(.03,.03,.03);
         this.gltfModel = gltf.scene;
         this.scene.add(gltf.scene);

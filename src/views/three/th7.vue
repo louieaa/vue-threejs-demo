@@ -3,7 +3,7 @@
  * @Author: louiebb
  * @Date: 2020-08-20 14:45:11
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-20 15:59:13
+ * @LastEditTime: 2020-08-20 17:25:16
 -->
 <template>
   <div class="page-th7">
@@ -43,17 +43,16 @@ export default {
       scene:null, // 场景
       camera:null, // 相机
       renderer:null, // 渲染
-      inner:{
-        w:window.innerWidth - 100,
-        h:window.innerHeight - 100
-      },
       cp:{
         fov:50 ,// 角度 最小值为0，最大值为180，默认值为50，实际项目中一般都定义45
         aspect:0, // 宽高比
         near:1, // 近面
         far:1000 // 远面
       },
-      currentNum:20000
+      currentNum:20000,
+      gap:200, // 缺口
+      w:window.innerWidth,
+      h:window.innerHeight,
     };
   },
   watch: {
@@ -70,10 +69,15 @@ export default {
   destroyed() {},
   // life cycle end
   methods: {
+    handleGetWindowInner(){
+      this.w = window.innerWidth - this.gap
+      this.h = window.innerHeight- this.gap
+    },
     onWindowResize() {
-      this.camera.aspect = this.inner.w / this.inner.h;
+      this.handleGetWindowInner()
+      this.camera.aspect = this.w / this.h;
       this.camera.updateProjectionMatrix();
-      this.renderer.setSize( this.inner.w, this.inner.w.h );
+      this.renderer.setSize( this.w, this.h );
     },
     render() {
       let time = Date.now() * 0.001;
@@ -82,6 +86,7 @@ export default {
       this.renderer.render( this.scene, this.camera );
 		},
     init(){
+      this.handleGetWindowInner();
       this.initRenderer();
       this.initScene();
       this.initAxis();
@@ -98,11 +103,12 @@ export default {
       let axis = new THREE.AxisHelper(3);
       this.scene.add(axis);
     },
-      //初始化渲染器
+    //初始化渲染器
     initRenderer() {
       this.renderer = new THREE.WebGLRenderer(); //实例化渲染器
-      this.renderer.setSize(this.inner.w,this.inner.h); //设置宽和高
-      this.container = document.querySelector('.container').appendChild(this.renderer.domElement); //添加到dom
+      this.renderer.setSize(this.w,this.h); //设置宽和高
+      this.container = document.querySelector('.container')
+      this.container.appendChild(this.renderer.domElement); //添加到dom
     },
     initLight(){
       let light1 = new THREE.DirectionalLight( 0xffffff, 0.5 );
@@ -253,13 +259,16 @@ export default {
     },
     initStats(){
       this.stats = new Stats();
-			this.container.appendChild( this.stats.dom );
+      this.stats.domElement.style.position = 'absolute';
+      this.stats.domElement.style.top = '0px';
+      this.stats.domElement.style.left = this.gap/2+'px';
+      this.container.appendChild( this.stats.dom );
     },
     //初始化相机
     initCamera() {
       this.cp={
         fov:27,// 角度
-        aspect:this.inner.w/this.inner.h, // 宽高比
+        aspect:this.w/this.h, // 宽高比
         near:5, // 近面
         far:3500 // 远面
       }
@@ -269,7 +278,6 @@ export default {
     animate() {
       requestAnimationFrame(this.animate); //循环调用函数
       this.stats.update(); //更新性能检测框
-      this.currentNum += 10;
       this.render();				
     },
   },

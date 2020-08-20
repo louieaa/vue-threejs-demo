@@ -3,7 +3,7 @@
  * @Author: louiebb
  * @Date: 2020-08-11 17:32:06
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-13 15:45:52
+ * @LastEditTime: 2020-08-20 16:23:52
 -->
 <template>
   <div id="app">
@@ -43,6 +43,7 @@ export default {
 
 <style lang="scss">
 @import './style/reset';
+@import './style/base';
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

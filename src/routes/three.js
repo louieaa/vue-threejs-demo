@@ -3,7 +3,7 @@
  * @Author: louiebb
  * @Date: 2020-08-11 17:34:32
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-20 14:54:15
+ * @LastEditTime: 2020-08-20 16:56:43
  */
 import { _import } from "@/config/env";
 
@@ -70,6 +70,14 @@ export default [
         },
         path: "/th7",
         component: _import("three/th7")
+      },
+      {
+        name: "th8",
+        mate:{
+          label: "绘制街景动画"
+        },
+        path: "/th8",
+        component: _import("three/th8")
       }
     ]
   }

@@ -3,7 +3,7 @@
  * @Author: louiebb
  * @Date: 2020-08-11 17:35:49
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-20 14:04:56
+ * @LastEditTime: 2020-08-20 17:19:13
 -->
 <template>
   <div class="page-th3">
@@ -164,7 +164,7 @@ export default {
       this.renderer = new THREE.WebGLRenderer( { antialias: true } );
       this.renderer.setPixelRatio( window.devicePixelRatio );
       this.renderer.setSize(this.w,this.h)
-      this.container =document.querySelector('.container')
+      this.container = document.querySelector('.container')
       this.container.appendChild(this.renderer.domElement)
 
       this.initControl();
@@ -247,7 +247,7 @@ export default {
     //自带文字几何体
     loadFont() {
       this.fontLoader = new THREE.FontLoader();
-      this.fontLoader.load( '/fonts/' + this.fontName + '_' + this.fontWeight + '.typeface.json',  ( response )=> {
+      this.fontLoader.load( '/server/fonts/' + this.fontName + '_' + this.fontWeight + '.typeface.json',  ( response )=> {
         this.font = response;
         this.refreshText();
       } );
@@ -395,8 +395,8 @@ export default {
 			this.refreshText();
     },
     handleGetWindowInner(){
-      this.w = window.innerWidth - this.gap,
-      this.h = window.innerHeight- this.gap,
+      this.w = window.innerWidth - this.gap;
+      this.h = window.innerHeight- this.gap;
       this.windowHalfX = this.w / 2;
     },
     onWindowResize() {
@@ -435,10 +435,4 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.container{
-  position: relative;
-}
-.tool{
-  margin: 10px 0;
-}
 </style>
