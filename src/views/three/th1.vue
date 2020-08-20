@@ -3,7 +3,7 @@
  * @Author: louiebb
  * @Date: 2020-08-11 17:35:49
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-20 09:45:54
+ * @LastEditTime: 2020-08-20 10:26:50
 -->
 <template>
   <div class="page-th1">
@@ -78,7 +78,7 @@ export default {
       this.initControl();
       this.animate();
     },
-     initControl() {
+    initControl() {
         this.control = new OrbitControls(this.camera, this.renderer.domElement);
     },
     initAxis(){
@@ -90,7 +90,7 @@ export default {
       console.log(this.cp.fov)
       this.camera.setFocalLength(this.cp.fov)
     },
-     //初始化渲染器
+    //初始化渲染器
     initRenderer() {
         this.renderer = new THREE.WebGLRenderer(); //实例化渲染器
         this.renderer.setSize(this.inner.w,this.inner.h); //设置宽和高

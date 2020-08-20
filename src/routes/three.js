@@ -3,7 +3,7 @@
  * @Author: louiebb
  * @Date: 2020-08-11 17:34:32
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-20 09:05:04
+ * @LastEditTime: 2020-08-20 10:19:39
  */
 import { _import } from "@/config/env";
 
@@ -34,6 +34,11 @@ export default [
         name: "th4",
         path: "/th4",
         component: _import("three/th4")
+      },
+      {
+        name: "th5",
+        path: "/th5",
+        component: _import("three/th5")
       }
     ]
   }
