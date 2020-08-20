@@ -3,10 +3,10 @@
  * @Author: louiebb
  * @Date: 2020-08-11 17:35:49
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-19 14:03:31
+ * @LastEditTime: 2020-08-19 18:13:31
 -->
 <template>
-  <div class="page-th2">
+  <div class="page-th3">
     <h1>Creating a scene</h1>
     <h4>创建一个场景，画文字</h4>
     <div class="tool">

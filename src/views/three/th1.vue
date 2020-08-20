@@ -3,7 +3,7 @@
  * @Author: louiebb
  * @Date: 2020-08-11 17:35:49
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-19 17:53:35
+ * @LastEditTime: 2020-08-19 18:02:06
 -->
 <template>
   <div class="page-th1">
@@ -107,7 +107,7 @@ export default {
       }
       this.camera = new THREE.PerspectiveCamera(this.cp.fov,this.cp.aspect,this.cp.near,this.cp.far); //实例化相机
       this.cameraPosition();
-      this.cameraUp();
+      // this.cameraUp();
       this.cameraLookAt();
     },
     //创建模型
