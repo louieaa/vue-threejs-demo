@@ -3,20 +3,135 @@
  * @Author: louiebb
  * @Date: 2020-08-19 18:12:47
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-20 09:20:43
+ * @LastEditTime: 2020-08-20 10:17:44
 -->
 <template>
   <div class="page-th4">
-  <h1>Creating a CAR</h1>
-    <h4>加载glt模型</h4>
-    <el-row class="tool">
-      <el-button type="primary" @click="initCarGltf" round>小车</el-button>
-      <el-button type="success" @click="initWuGltf" round>小屋</el-button>
-      <el-button type="info" round>信息按钮</el-button>
-      <el-button type="warning" round>警告按钮</el-button>
-      <el-button type="danger" round>危险按钮</el-button>
-    </el-row>
-    <div class="container"></div>
+  <h1>加载模型</h1>
+  <el-tabs v-model="activeName" type="border-card">
+    <el-tab-pane label="案例" name="first">
+      <el-row class="tool">
+        <el-button type="primary" @click="initCarGltf" round>小车</el-button>
+        <el-button type="success" @click="initWuGltf" round>小屋</el-button>
+        <el-button type="info" round>信息按钮</el-button>
+        <el-button type="warning" round>警告按钮</el-button>
+        <el-button type="danger" round>危险按钮</el-button>
+      </el-row>
+      <div class="container"></div>
+    </el-tab-pane>
+    <el-tab-pane label="说明" name="second">
+      <el-card class="box-card">
+        <el-collapse>
+          <el-collapse-item title="ObjectLoader加载JSON模型" name="1">
+            <pre>
+            <code>
+              // 内部
+              var obj = scene.toJSON(); //将整个场景的内容转换成为json对象
+              let loader = new THREE.ObjectLoader(); //实例化ObjectLoader对象
+              let scene = loader.parse(obj); //将json对象再转换成3D对象
+
+              //外部
+              let loader = new THREE.ObjectLoader(); //实例化ObjectLoader对象
+              //加载模型，并在回调中将生成的模型对象添加到场景中
+              loader.load("../js/models/json/file.json", function (group) {
+                  scene.add(group);
+              });
+            </code>
+          </pre>
+          </el-collapse-item>
+          <el-collapse-item title="GLTFLoader加载glTF模型" name="2">
+            <pre>
+            <code>
+              import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+
+              this.loader = new GLTFLoader();
+              this.loader.load('/loader/gltf/wu/scene.gltf',  (gltf) =>{
+                gltf.scene.scale.set(.5,.5,.5);
+                this.gltfModel = gltf.scene;
+                this.scene.add(gltf.scene);
+              });
+            </code>
+          </pre>
+          </el-collapse-item>
+          <el-collapse-item title="FBXLoader加载FBX模型" name="3">
+            <pre>
+              <code>
+              import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
+              this.loader = new FBXLoader();
+              this.loader.load('/loader/gltf/wu/scene.gltf',  (fbx) =>{
+                //修改模型大小，并设置每个模型网格可以投射阴影：
+                fbx.scale.set(.1,.1,.1);
+                fbx.traverse(function (item) {
+                  if(item instanceof THREE.Mesh){
+                      item.castShadow = true;
+                      item.receiveShadow = true;
+                  }
+                });
+                this.scene.add(fbx);
+              });
+              </code>
+            </pre>
+          </el-collapse-item>
+          <el-collapse-item title="OBJLoader和MTLLoader加载OBJ模型" name="4">
+            <pre>
+              <code>
+              import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
+              import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader'
+              //创建MTL加载器
+              var mtlLoader = new MTLLoader();
+              //设置文件路径
+              mtlLoader.setPath('../js/models/obj/');
+              //设置纹理文件路径
+              mtlLoader.setTexturePath('../js/models/obj/');
+
+              //加载mtl文件
+              mtlLoader.load('female02.mtl', function (material) {
+                  //创建OBJ加载器
+                  var objLoader = new THREE.OBJLoader();
+                  //设置当前加载的纹理
+                  objLoader.setMaterials(material);
+                  objLoader.setPath('../js/models/obj/');
+                  objLoader.load('female02.obj', function (object) {
+                      //添加阴影
+                      object.traverse(function (item) {
+                          if(item instanceof THREE.Mesh){
+                              item.castShadow = true;
+                              item.receiveShadow = true;
+                          }
+                      });
+                      //缩放
+                      object.scale.set(.3,.3,.3);
+                      scene.add(object);
+                  })
+              });
+              </code>
+            </pre>
+          </el-collapse-item>
+          <el-collapse-item title="ColladaLoader加载COLLADA模型" name="5">
+            <pre>
+              <code>
+              import { ColladaLoader } from 'three/examples/jsm/loaders/ColladaLoader'
+              var loader = new THREE.ColladaLoader();
+              loader.load('../js/models/collada/elf.dae', function (collada) {
+                //添加阴影
+                collada.scene.traverse(function (item) {
+                    if(item instanceof THREE.Mesh){
+                        item.castShadow = true;
+                        item.receiveShadow = true;
+                    }
+                });
+                //缩放
+                collada.scene.scale.set(5,5,5);
+                scene.add(collada.scene);
+              });
+              </code>
+            </pre>
+          </el-collapse-item>
+        </el-collapse>
+      </el-card>
+    </el-tab-pane>
+  </el-tabs>
+    
   </div>
 </template>
  
@@ -38,6 +153,8 @@ export default {
   },
   data() {
     return {
+      activeName:'first',
+      
       control:null,
       loader: null,
       scene:null, // 场景
@@ -119,7 +236,7 @@ export default {
       plane.position.y = -.1;
       plane.receiveShadow = true; //可以接收阴影
       this.scene.add(plane);
-      this.initWuGltf();
+      this.initCarGltf();
     },
     //初始化场景
     initScene() {
@@ -174,7 +291,21 @@ export default {
 </script>
  
 <style lang="scss" scop>
- .tool{
-   margin-bottom: 10px;
- }
+.tool{
+  margin-bottom: 10px;
+}
+.page-th4{
+  padding: 0 32px;
+}
+.el-tabs__header{
+  padding: 0 24px;
+}
+pre{
+  background-color: #282c34;
+  text-align: left;
+}
+code{
+  background-color: #282c34;
+  color: #abb2bf;
+}
 </style> 

@@ -3,7 +3,7 @@
  * @Author: louiebb
  * @Date: 2020-08-11 17:35:49
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-19 18:13:31
+ * @LastEditTime: 2020-08-20 09:30:37
 -->
 <template>
   <div class="page-th3">
@@ -22,6 +22,8 @@
 <script>
 import * as THREE from 'three';
 import Stats from 'three/examples/jsm/libs/stats.module.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+
 THREE.Cache.enabled = true
 export default {
   name: "th2",
@@ -96,6 +98,9 @@ export default {
   computed:{
   },
   methods: {
+    initControl() {
+        this.control = new OrbitControls(this.camera, this.renderer.domElement);
+    },
     decimalToHex( d ) {
       var hex = Number( d ).toString( 16 );
       hex = "000000".substr( 0, 6 - hex.length ) + hex;
@@ -108,7 +113,6 @@ export default {
       this.initScene()
       // CAMERA
       this.initCamera()
-
       // LIGHTS 灯光
       this.initDirLight()
 
@@ -163,6 +167,8 @@ export default {
       this.renderer.setSize(this.w,this.h)
       this.container =document.querySelector('.container')
       this.container.appendChild(this.renderer.domElement)
+
+      this.initControl();
       // STATS
       this.stats = new Stats();
       this.stats.domElement.style.position = 'absolute';
@@ -424,7 +430,7 @@ export default {
       this.reverseWeightMap[ this.weightMap[ i ] ] = i;
     } 
     this.init();
-    this.handleAddEvent();
+    // this.handleAddEvent();
     this.animate();
   }
 };

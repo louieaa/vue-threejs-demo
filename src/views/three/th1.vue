@@ -3,7 +3,7 @@
  * @Author: louiebb
  * @Date: 2020-08-11 17:35:49
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-19 18:02:06
+ * @LastEditTime: 2020-08-20 09:45:54
 -->
 <template>
   <div class="page-th1">
@@ -19,7 +19,7 @@
 <script>
 import * as THREE from 'three';
 import * as dat from 'dat.gui';
-// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 export default {
   name: "th1",
@@ -75,8 +75,11 @@ export default {
       this.initCamera();
       this.initMesh();
       this.initGui();
-
+      this.initControl();
       this.animate();
+    },
+     initControl() {
+        this.control = new OrbitControls(this.camera, this.renderer.domElement);
     },
     initAxis(){
       var axis = new THREE.AxisHelper(3);
@@ -106,6 +109,9 @@ export default {
         far:200 // 远面
       }
       this.camera = new THREE.PerspectiveCamera(this.cp.fov,this.cp.aspect,this.cp.near,this.cp.far); //实例化相机
+      // this.camera.up.x=0 决定哪个面朝上
+      // this.camera.up.y=0
+      // this.camera.up.z=1
       this.cameraPosition();
       // this.cameraUp();
       this.cameraLookAt();
@@ -213,6 +219,9 @@ export default {
   },
   mounted() {
     this.init();
+  },
+  beforeDestroy(){
+    this.gui.destroy()
   }
 };
 </script>
