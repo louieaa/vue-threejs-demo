@@ -3,12 +3,11 @@
  * @Author: louiebb
  * @Date: 2020-08-11 17:35:49
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-14 10:42:18
+ * @LastEditTime: 2020-08-20 14:04:32
 -->
 <template>
   <div class="page-th2">
-    <h1>Creating a scene</h1>
-    <h4>创建一个场景，画一条线</h4>
+    <h3>画线</h3>
     <div class="tool">
       <el-button plain @click="createdLineBasicMaterial1">添加线1条</el-button>
       <el-button type="danger" plain @click="createdLineBasicMaterial2">添加线2条</el-button>

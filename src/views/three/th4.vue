@@ -3,11 +3,11 @@
  * @Author: louiebb
  * @Date: 2020-08-19 18:12:47
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-20 10:17:44
+ * @LastEditTime: 2020-08-20 14:01:12
 -->
 <template>
   <div class="page-th4">
-  <h1>加载模型</h1>
+  <h3>加载模型</h3>
   <el-tabs v-model="activeName" type="border-card">
     <el-tab-pane label="案例" name="first">
       <el-row class="tool">
@@ -141,7 +141,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 export default {
-  name: '',
+  name: 'th4',
   mixins: [],
   props: {
   },

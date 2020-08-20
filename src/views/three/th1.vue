@@ -3,12 +3,11 @@
  * @Author: louiebb
  * @Date: 2020-08-11 17:35:49
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-20 10:26:50
+ * @LastEditTime: 2020-08-20 13:55:24
 -->
 <template>
   <div class="page-th1">
-    <h1>Creating a cube</h1>
-    <h4>创建一个立方体</h4>
+    <h3>创建一个立方体</h3>
     <div class="tool">
       <el-button type="danger" plain>危险按钮</el-button>
     </div>
@@ -85,11 +84,6 @@ export default {
       var axis = new THREE.AxisHelper(3);
       this.scene.add(axis);
     },
-    fovFun(){
-      this.cp.fov +=10
-      console.log(this.cp.fov)
-      this.camera.setFocalLength(this.cp.fov)
-    },
     //初始化渲染器
     initRenderer() {
         this.renderer = new THREE.WebGLRenderer(); //实例化渲染器
@@ -130,41 +124,6 @@ export default {
         // this.material = new THREE.MeshNormalMaterial(); //创建材质
         this.mesh = new THREE.Mesh( this.geometry, this.material ); //创建网格
         this.scene.add( this.mesh ); //将网格添加到场景
-    },
-    animate() {
-        requestAnimationFrame(this.animate); //循环调用函数
-        // this.mesh.rotation.x += 0.005; //每帧网格模型的沿x轴旋转0.005弧度
-        // this.mesh.rotation.y += 0.015; //每帧网格模型的沿y轴旋转0.015弧度
-        this.renderer.render(this.scene, this.camera ); //渲染界面
-    },
-    cameraPosition(){
-       let {x,y,z}  = this.cm.ps
-      this.camera.position.set(x,y,z);
-    },
-    cameraUp(){
-        let {x,y,z} = this.cm.us
-        // this.camera.up = new THREE.Vector3( x,y,z );
-        this.camera.up.x = x
-        this.camera.up.y = y
-        this.camera.up.z = z
-        console.log(this.camera.up)
-    },
-    cameraLookAt(){
-      // 相机对象指向坐标原点，scene.position的默认是new THREE.Vector3(0,0,0)
-      // camera.lookAt(scene.position);
-      // 相机对象指向一个网格模型对象Mesh，渲染后Mesh会显示到Canvas画布的正中间
-      // camera.lookAt(Mesh.position);
-      // 直接设置具体的坐标值
-      // camera.lookAt(0,0,0);
-      // 通过三维向量直接设置坐标值
-      // camera.lookAt(new THREE.Vector3(10,0,20));
-       let {x,y,z}  = this.cm.la
-      this.camera.lookAt(x,y,z);
-    },
-    cameraP(v){
-      // this.camera.setFocalLength(this.cp.fov)
-      this.camera[v] = this.cp[v]
-      this.camera.updateProjectionMatrix()
     },
     initGui() {
       this.controls = {
@@ -212,6 +171,46 @@ export default {
       // this.gui.add(this.controls, "positionX", -10, 10).onChange(this.updatePosition);
       // this.gui.add(this.controls, "positionY", -10, 10).onChange(this.updatePosition);
       // this.gui.add(this.controls, "positionZ", -10, 10).onChange(this.updatePosition);
+    },
+    fovFun(){
+      this.cp.fov +=10
+      console.log(this.cp.fov)
+      this.camera.setFocalLength(this.cp.fov)
+    },
+    animate() {
+        requestAnimationFrame(this.animate); //循环调用函数
+        // this.mesh.rotation.x += 0.005; //每帧网格模型的沿x轴旋转0.005弧度
+        // this.mesh.rotation.y += 0.015; //每帧网格模型的沿y轴旋转0.015弧度
+        this.renderer.render(this.scene, this.camera ); //渲染界面
+    },
+    cameraPosition(){
+       let {x,y,z}  = this.cm.ps
+      this.camera.position.set(x,y,z);
+    },
+    cameraUp(){
+        let {x,y,z} = this.cm.us
+        // this.camera.up = new THREE.Vector3( x,y,z );
+        this.camera.up.x = x
+        this.camera.up.y = y
+        this.camera.up.z = z
+        console.log(this.camera.up)
+    },
+    cameraLookAt(){
+      // 相机对象指向坐标原点，scene.position的默认是new THREE.Vector3(0,0,0)
+      // camera.lookAt(scene.position);
+      // 相机对象指向一个网格模型对象Mesh，渲染后Mesh会显示到Canvas画布的正中间
+      // camera.lookAt(Mesh.position);
+      // 直接设置具体的坐标值
+      // camera.lookAt(0,0,0);
+      // 通过三维向量直接设置坐标值
+      // camera.lookAt(new THREE.Vector3(10,0,20));
+       let {x,y,z}  = this.cm.la
+      this.camera.lookAt(x,y,z);
+    },
+    cameraP(v){
+      // this.camera.setFocalLength(this.cp.fov)
+      this.camera[v] = this.cp[v]
+      this.camera.updateProjectionMatrix()
     },
     updatePosition() {
       this.mesh.position.set(this.controls.positionX, this.controls.positionY, this.controls.positionZ);

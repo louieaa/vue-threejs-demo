@@ -3,11 +3,11 @@
  * @Author: louiebb
  * @Date: 2020-08-20 09:38:40
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-20 12:00:06
+ * @LastEditTime: 2020-08-20 14:05:34
 -->
 <template>
   <div class="page-th5">
-    <h1>几何</h1>
+    <h3>绘制几何</h3>
     <span>小项目，可以使用Geometry实现，中大型的项目，还是推荐BufferGeometry</span>
     <el-row class="tool">
       <el-button type="primary" @click="initBoxGeometry" round>BoxGeometry</el-button>

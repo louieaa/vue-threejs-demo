@@ -3,7 +3,7 @@
  * @Author: louiebb
  * @Date: 2020-08-11 17:34:17
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-11 17:42:41
+ * @LastEditTime: 2020-08-20 14:15:45
 -->
 <template>
   <div class="component-top-bar">
@@ -27,7 +27,7 @@
           v-for="(x, idx) in i.children"
           @click="hfun1(x)"
           :key="idx"
-          >{{ x.name }}</el-menu-item
+          >{{ x|getLabelFilters}}</el-menu-item
         >
       </el-submenu>
     </el-menu>
@@ -41,11 +41,24 @@ export default {
   props: {},
   data() {
     return {
-      topData: concat,
+      // topData: concat,
       activeIndex: "2-1"
     };
   },
+  filters:{
+    getLabelFilters(x){
+      return x.mate? x.mate.label:x.name
+    }
+  },
+  computed:{
+    topData(){
+      return concat
+    }
+  },
   methods: {
+    handleGetLabel(x){
+      return x.mate? x.mate.label:x.name
+    },
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     },

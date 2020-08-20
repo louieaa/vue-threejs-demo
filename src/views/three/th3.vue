@@ -3,12 +3,11 @@
  * @Author: louiebb
  * @Date: 2020-08-11 17:35:49
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-20 09:30:37
+ * @LastEditTime: 2020-08-20 14:04:56
 -->
 <template>
   <div class="page-th3">
-    <h1>Creating a scene</h1>
-    <h4>创建一个场景，画文字</h4>
+    <h3>画3d文字</h3>
     <div class="tool">
       <el-button plain @click="color">color</el-button>
       <el-button type="danger" plain @click="fontFun">font</el-button>
@@ -26,7 +25,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 THREE.Cache.enabled = true
 export default {
-  name: "th2",
+  name: "th3",
   components: {},
   data() {
     return {
