@@ -3,7 +3,7 @@
  * @Author: louiebb
  * @Date: 2020-08-11 17:35:49
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-20 14:05:54
+ * @LastEditTime: 2020-08-20 14:45:35
 -->
 <template>
   <div class="page-th6">
@@ -17,7 +17,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 export default {
-  name: "js1",
+  name: "th6",
   components: {},
   data() {
     return {

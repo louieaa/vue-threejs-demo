@@ -3,7 +3,7 @@
  * @Author: louiebb
  * @Date: 2020-08-11 17:34:32
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-20 14:06:01
+ * @LastEditTime: 2020-08-20 14:54:15
  */
 import { _import } from "@/config/env";
 
@@ -62,6 +62,14 @@ export default [
         },
         path: "/th6",
         component: _import("three/th6")
+      },
+      {
+        name: "th7",
+        mate:{
+          label: "绘制多彩的立方体"
+        },
+        path: "/th7",
+        component: _import("three/th7")
       }
     ]
   }
