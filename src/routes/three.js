@@ -3,7 +3,7 @@
  * @Author: louiebb
  * @Date: 2020-08-11 17:34:32
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-25 10:33:10
+ * @LastEditTime: 2020-08-25 11:35:36
  */
 import { _import } from "@/config/env";
 
@@ -94,6 +94,14 @@ export default [
         },
         path: "/th10",
         component: _import("three/th10/index")
+      },
+      {
+        name: "th11",
+        mate:{
+          label: "Camera相机"
+        },
+        path: "/th11",
+        component: _import("three/th11/index")
       }
     ]
   }

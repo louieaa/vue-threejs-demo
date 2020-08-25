@@ -3,7 +3,7 @@
  * @Author: louiebb
  * @Date: 2020-08-11 17:35:49
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-20 13:55:24
+ * @LastEditTime: 2020-08-25 15:19:47
 -->
 <template>
   <div class="page-th1">
@@ -68,7 +68,7 @@ export default {
   },
   methods: {
     init(){
-      this.initRenderer();
+      this.initRender();
       this.initScene();
       this.initAxis();
       this.initCamera();
@@ -85,7 +85,7 @@ export default {
       this.scene.add(axis);
     },
     //初始化渲染器
-    initRenderer() {
+    initRender() {
         this.renderer = new THREE.WebGLRenderer(); //实例化渲染器
         this.renderer.setSize(this.inner.w,this.inner.h); //设置宽和高
         document.querySelector('.container').appendChild(this.renderer.domElement); //添加到dom

@@ -3,7 +3,7 @@
  * @Author: louiebb
  * @Date: 2020-08-20 14:45:11
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-25 11:17:49
+ * @LastEditTime: 2020-08-25 11:37:03
 -->
 <template>
   <div class="page-th10">
@@ -65,32 +65,30 @@ export default {
   destroyed() {},
   // life cycle end
   methods: {
-    clearAll() {
-      if (this.sphere) {
-        this.scene.remove(this.sphere);
-      }
+    // clearAll() {
+    //   if (this.sphere) {
+    //     this.scene.remove(this.sphere);
+    //   }
 
-      if (this.cube) {
-        this.scene.remove(this.cube);
-      }
+    //   if (this.cube) {
+    //     this.scene.remove(this.cube);
+    //   }
 
-      if (this.plane) {
-        this.scene.remove(this.plane);
-      }
+    //   if (this.plane) {
+    //     this.scene.remove(this.plane);
+    //   }
 
-      if (this.datGui) {
-        this.datGui.destroy();
-      }
+    //   if (this.datGui) {
+    //     this.datGui.destroy();
+    //   }
 
-      if (this.ambientLight) {
-        this.scene.remove(this.ambientLight);
-      }
-    },
+    //   if (this.ambientLight) {
+    //     this.scene.remove(this.ambientLight);
+    //   }
+    // },
     init() {
-      this.initRenderer();
-      // this.initScene();
+      this.initRender();
       this.initCamera();
-      this.clearAll();
       this.initDirectionalLight();
 
       this.initControl();
@@ -104,7 +102,7 @@ export default {
       this.control.enableDamping = true;
     },
     //初始化渲染器
-    initRenderer() {
+    initRender() {
       // alpha true透明背景
       this.renderer = new THREE.WebGLRenderer({ antialias: true }); //实例化渲染器
       this.renderer.setPixelRatio(window.devicePixelRatio);

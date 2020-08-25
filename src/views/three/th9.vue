@@ -60,7 +60,7 @@ export default {
   // life cycle end
   methods: {
     init() {
-      this.initRenderer();
+      this.initRender();
       this.initScene();
       this.initCamera();
 
@@ -176,7 +176,7 @@ export default {
       this.control.enableDamping = true;
     },
     //初始化渲染器
-    initRenderer() {
+    initRender() {
       // alpha true透明背景
       this.renderer = new THREE.WebGLRenderer({ alpha: true }); //实例化渲染器
       this.renderer.setPixelRatio(window.devicePixelRatio);

@@ -87,7 +87,7 @@ export default {
 		},
     init(){
       this.handleGetWindowInner();
-      this.initRenderer();
+      this.initRender();
       this.initScene();
       this.initAxis();
       this.initCamera();
@@ -104,7 +104,7 @@ export default {
       this.scene.add(axis);
     },
     //初始化渲染器
-    initRenderer() {
+    initRender() {
       this.renderer = new THREE.WebGLRenderer(); //实例化渲染器
       this.renderer.setSize(this.w,this.h); //设置宽和高
       this.container = document.querySelector('.container')

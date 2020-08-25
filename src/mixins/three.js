@@ -3,7 +3,7 @@
  * @Author: louiebb
  * @Date: 2020-08-20 17:26:11
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-20 18:29:12
+ * @LastEditTime: 2020-08-25 11:54:55
  */
 // import { xxx } from '@/xxx';
 export default {
@@ -27,7 +27,6 @@ export default {
   },
   data() {
     return {
-      test:2,
       scene:null, // 场景
       camera:null, // 相机
       renderer:null, // 渲染

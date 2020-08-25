@@ -183,7 +183,7 @@ export default {
   // life cycle end
   methods: {
     init(){
-      this.initRenderer();
+      this.initRender();
       this.initScene();
       this.initCamera();
       this.initLight();
@@ -197,7 +197,7 @@ export default {
         this.control = new OrbitControls(this.camera, this.renderer.domElement);
     },
      //初始化渲染器
-    initRenderer() {
+    initRender() {
         this.renderer = new THREE.WebGLRenderer({antialias: true}); //实例化渲染器
         this.renderer.setSize(this.inner.w,this.inner.h); //设置宽和高
         //告诉渲染器需要阴影效果

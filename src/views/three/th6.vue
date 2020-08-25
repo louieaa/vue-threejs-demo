@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     init(){
-      this.initRenderer();
+      this.initRender();
       this.initScene();
       this.initCamera();
       this.initControl();
@@ -47,7 +47,7 @@ export default {
       this.animate();
     },
      //初始化渲染器
-    initRenderer() {
+    initRender() {
       //实例化渲染器
       this.renderer = new THREE.WebGLRenderer(
         {
