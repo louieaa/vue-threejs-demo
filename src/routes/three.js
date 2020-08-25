@@ -3,7 +3,7 @@
  * @Author: louiebb
  * @Date: 2020-08-11 17:34:32
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-20 16:56:43
+ * @LastEditTime: 2020-08-25 10:33:10
  */
 import { _import } from "@/config/env";
 
@@ -78,6 +78,22 @@ export default [
         },
         path: "/th8",
         component: _import("three/th8")
+      },
+      {
+        name: "th9",
+        mate:{
+          label: "Material材质"
+        },
+        path: "/th9",
+        component: _import("three/th9")
+      },
+      {
+        name: "th10",
+        mate:{
+          label: "Light光照"
+        },
+        path: "/th10",
+        component: _import("three/th10/index")
       }
     ]
   }

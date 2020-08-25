@@ -3,7 +3,7 @@
  * @Author: louiebb
  * @Date: 2020-08-11 18:46:16
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-20 18:48:54
+ * @LastEditTime: 2020-08-24 15:41:01
  */
 module.exports = {
   publicPath:"./",  // 可以设置成相对路径，这样所有的资源都会被链接为相对路径，打出来的包可以被部署在任意路径
@@ -19,7 +19,7 @@ module.exports = {
     hot: true,
     proxy: {
       '/server':{
-        target: 'http://172.16.93.110:8081/', // API服务器的地址
+        target: 'http://127.0.0.1:8081/', // API服务器的地址
         ws: true,
         changeOrigin: true,
         secure: false,

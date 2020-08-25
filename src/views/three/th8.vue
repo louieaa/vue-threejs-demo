@@ -3,7 +3,7 @@
  * @Author: louiebb
  * @Date: 2020-08-20 14:45:11
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-20 18:28:55
+ * @LastEditTime: 2020-08-21 09:56:05
 -->
 <template>
   <div class="page-th8">
@@ -85,9 +85,9 @@ export default {
       this.container.appendChild(this.renderer.domElement); //添加到dom
     },
     initLight(){
-      let dirLight = new THREE.DirectionalLight( 0xffffff, 1 );
-			dirLight.position.set( 5, 2, 8 );
-			this.scene.add( dirLight );
+      let dirLight = new THREE.DirectionalLight( 0xffffff, 1 ); //添加了一个白色的平行光
+			dirLight.position.set( 5, 2, 8 ); //设置光的方向
+			this.scene.add( dirLight ); //添加到场景
     },
     //初始化场景
     initScene() {

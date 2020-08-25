@@ -3,7 +3,7 @@
  * @Author: louiebb
  * @Date: 2020-08-20 09:38:40
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-20 14:05:34
+ * @LastEditTime: 2020-08-21 09:33:59
 -->
 <template>
   <div class="page-th5">
@@ -87,7 +87,7 @@ export default {
       this.animate();
     },
     initMesh(){
-      this.material = new THREE.MeshNormalMaterial();
+      this.material = new THREE.MeshNormalMaterial(); // 创建材质
       this.initBoxGeometry();
     },
      //创建圆环
@@ -154,12 +154,14 @@ export default {
       // heightSegments — 可选，沿着边的高度的分割面的数量。默认值为1
       // depthSegments — 可选，沿着边的深度的分割面的数量。缺省值是1
       this.geometry = new THREE.BoxGeometry( 3, 6, 9); //创建几何体
-      this.material= [];
-      // 创建不同颜色的材质
-      for(var i = 0;i<this.geometry.faces.length;i++){
-        let material = new THREE.MeshBasicMaterial({ color: new THREE.Color(Math.random() * 0xffffff)});//创建材质
-        this.material.push(material);
-      }
+
+      // this.material= [];
+      // // 创建不同颜色的材质
+      // for(var i = 0;i<this.geometry.faces.length;i++){
+      //   let material = new THREE.MeshBasicMaterial({ color: new THREE.Color(Math.random() * 0xffffff)});//创建材质
+      //   this.material.push(material);
+      // }
+      
       if (this.mesh) {
         this.scene.remove( this.mesh ); 
       }
