@@ -3,7 +3,7 @@
  * @Author: louiebb
  * @Date: 2020-08-20 14:45:11
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-25 15:32:24
+ * @LastEditTime: 2020-08-28 10:09:16
 -->
 <template>
   <div class="page-camera">
@@ -261,6 +261,8 @@ export default {
       this.camera.lookAt(new THREE.Vector3(0, 0, 0));
     },
     animate() {
+       //更新性能插件
+      this.stats.update();
       this.renderer.render(this.scene, this.camera);
       requestAnimationFrame(this.animate);
     }

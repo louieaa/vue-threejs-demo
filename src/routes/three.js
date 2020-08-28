@@ -3,7 +3,7 @@
  * @Author: louiebb
  * @Date: 2020-08-11 17:34:32
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-25 11:35:36
+ * @LastEditTime: 2020-08-28 10:08:01
  */
 import { _import } from "@/config/env";
 
@@ -102,6 +102,14 @@ export default [
         },
         path: "/th11",
         component: _import("three/th11/index")
+      },
+      {
+        name: "th12",
+        mate:{
+          label: "Sprite精灵和Points粒子"
+        },
+        path: "/th12",
+        component: _import("three/th12/index")
       }
     ]
   }

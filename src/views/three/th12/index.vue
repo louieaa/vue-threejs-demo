@@ -3,11 +3,11 @@
  * @Author: louiebb
  * @Date: 2020-08-20 14:45:11
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-28 10:06:04
+ * @LastEditTime: 2020-08-28 10:28:14
 -->
 <template>
-  <div class="page-th11">
-    <h3>Camera相机</h3>
+  <div class="page-th12">
+    <h3>Sprite精灵和Points粒子</h3>
     <el-row class="tool">
       <tab-bar  v-model="tabBar" :tabBarData="tabBarData"></tab-bar>
     </el-row>
@@ -17,12 +17,12 @@
 </template>
  
 <script>
-import Camera from './Camera'
+import Sprite from './Sprite'
 import TabBar from '../components/TabBar'
-import Control from './Control'
+import Points from './Points'
 
 export default {
-  name: "th11",
+  name: "th12",
   mixins: [],
   props: {
     prop: {
@@ -31,23 +31,23 @@ export default {
     }
   },
   components: {
-    Camera,
+    Sprite,
     TabBar,
-    Control
+    Points
   },
   filter: {},
   computed: {
   },
   data() {
     return {
-      tabBar: 'Camera',
+      tabBar: 'Sprite',
       tabBarData: [
         {
-          label: '正交相机和透视相机的对比',
-          value: 'Camera'
+          label: 'Sprite精灵',
+          value: 'Sprite'
         }, {
-          label: '控制相机移动案例',
-          value: 'Control'
+          label: 'Points粒子',
+          value: 'Points'
         }
       ]
     };
