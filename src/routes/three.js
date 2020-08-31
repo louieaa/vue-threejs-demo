@@ -3,7 +3,7 @@
  * @Author: louiebb
  * @Date: 2020-08-11 17:34:32
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-28 14:30:29
+ * @LastEditTime: 2020-08-31 14:57:14
  */
 import { _import } from "@/config/env";
 
@@ -126,6 +126,14 @@ export default [
         },
         path: "/th14",
         component: _import("three/th14/index")
+      },
+      {
+        name: "th15",
+        mate:{
+          label: "补间动画"
+        },
+        path: "/th15",
+        component: _import("three/th15/index")
       }
     ]
   }
