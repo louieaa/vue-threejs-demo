@@ -3,7 +3,7 @@
  * @Author: louiebb
  * @Date: 2020-08-11 17:34:32
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-28 10:08:01
+ * @LastEditTime: 2020-08-28 14:30:29
  */
 import { _import } from "@/config/env";
 
@@ -110,6 +110,22 @@ export default [
         },
         path: "/th12",
         component: _import("three/th12/index")
+      },
+      {
+        name: "th13",
+        mate:{
+          label: "controls控制器"
+        },
+        path: "/th13",
+        component: _import("three/th13/index")
+      },
+      {
+        name: "th14",
+        mate:{
+          label: "动画案例"
+        },
+        path: "/th14",
+        component: _import("three/th14/index")
       }
     ]
   }

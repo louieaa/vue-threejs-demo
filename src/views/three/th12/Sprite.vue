@@ -3,7 +3,7 @@
  * @Author: louiebb
  * @Date: 2020-08-20 14:45:11
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-28 10:24:36
+ * @LastEditTime: 2020-08-28 13:54:52
 -->
 <template>
   <div class="page-sprite">
@@ -178,7 +178,6 @@ export default {
     //初始化场景
     initScene() {
       this.scene = new THREE.Scene(); //实例化场景
-      // this.initLight();
     },
     initStats() {
       this.stats = new Stats();

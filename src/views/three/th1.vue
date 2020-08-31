@@ -3,7 +3,7 @@
  * @Author: louiebb
  * @Date: 2020-08-11 17:35:49
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-25 15:19:47
+ * @LastEditTime: 2020-08-28 11:06:21
 -->
 <template>
   <div class="page-th1">
@@ -79,6 +79,9 @@ export default {
     },
     initControl() {
         this.control = new OrbitControls(this.camera, this.renderer.domElement);
+        this.control.addEventListener('change', function(a){
+        console.log("卧槽，666，动了动了，相机控制器动了！",a);
+    });
     },
     initAxis(){
       var axis = new THREE.AxisHelper(3);
@@ -221,6 +224,7 @@ export default {
   },
   beforeDestroy(){
     this.gui.destroy()
+    this.control.dispose()
   }
 };
 </script>
