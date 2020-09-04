@@ -3,7 +3,7 @@
  * @Author: louiebb
  * @Date: 2020-08-11 17:34:32
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-31 14:57:14
+ * @LastEditTime: 2020-09-04 10:02:34
  */
 import { _import } from "@/config/env";
 
@@ -134,6 +134,14 @@ export default [
         },
         path: "/th15",
         component: _import("three/th15/index")
+      },
+      {
+        name: "th16",
+        mate:{
+          label: "场景交互"
+        },
+        path: "/th16",
+        component: _import("three/th16/main")
       }
     ]
   }
