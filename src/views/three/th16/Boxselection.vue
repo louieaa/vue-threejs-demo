@@ -3,7 +3,7 @@
  * @Author: louiebb
  * @Date: 2020-08-20 14:45:11
  * @LastEditors: loueibb
- * @LastEditTime: 2020-09-07 10:14:43
+ * @LastEditTime: 2020-09-07 10:58:58
 -->
 <template>
   <div class="page-boxselection">
@@ -353,8 +353,8 @@ export default {
           }
 
           //重置样式
-          that.div.style.left = 0;
-          that.div.style.top = 0;
+          that.div.style.left =  e.clientX   + 'px';
+          that.div.style.top =  e.clientY  + 'px'
           that.div.style.width = 0;
           that.div.style.height = 0;
           document.body.appendChild(that.div);
@@ -382,10 +382,10 @@ export default {
       this.min.y = Math.min(this.move.y, this.down.y);
       this.max.x = Math.max(this.move.x, this.down.x);
       this.max.y = Math.max(this.move.y, this.down.y);
-      let halfGap = this.gap / 2;
-      //设置div框
-      this.div.style.left = this.min.x + halfGap + 'px';
-      this.div.style.top = this.min.y + halfGap + 8 + 'px';
+      // let halfGap = this.gap / 2;
+      // //设置div框
+      // this.div.style.left = this.min.x + halfGap + 'px';
+      // this.div.style.top = this.min.y + halfGap + 8 + 'px';
       this.div.style.width = this.max.x - this.min.x + 'px';
       this.div.style.height = this.max.y - this.min.y + 'px';
 
