@@ -3,7 +3,7 @@
  * @Author: louiebb
  * @Date: 2020-08-11 17:35:49
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-28 11:06:21
+ * @LastEditTime: 2020-09-07 12:00:39
 -->
 <template>
   <div class="page-th1">
@@ -73,13 +73,16 @@ export default {
       this.initAxis();
       this.initCamera();
       this.initMesh();
+      this.timeRender();
       this.initGui();
       this.initControl();
       this.animate();
     },
     initControl() {
         this.control = new OrbitControls(this.camera, this.renderer.domElement);
+        let that = this;
         this.control.addEventListener('change', function(a){
+        that.timeRender();
         console.log("卧槽，666，动了动了，相机控制器动了！",a);
     });
     },
@@ -180,11 +183,27 @@ export default {
       console.log(this.cp.fov)
       this.camera.setFocalLength(this.cp.fov)
     },
+    timeRender() {
+      //设置为可渲染状态
+      this.renderEnabled = true;
+      //清除上次的延迟器
+      if (this.timeOut) {
+          clearTimeout(this.timeOut);
+      }
+
+      this.timeOut = setTimeout( ()=> {
+          this.renderEnabled = false;
+      }, 3000);
+    },
     animate() {
-        requestAnimationFrame(this.animate); //循环调用函数
-        // this.mesh.rotation.x += 0.005; //每帧网格模型的沿x轴旋转0.005弧度
-        // this.mesh.rotation.y += 0.015; //每帧网格模型的沿y轴旋转0.015弧度
-        this.renderer.render(this.scene, this.camera ); //渲染界面
+      requestAnimationFrame(this.animate); //循环调用函数
+      // this.mesh.rotation.x += 0.005; //每帧网格模型的沿x轴旋转0.005弧度
+      // this.mesh.rotation.y += 0.015; //每帧网格模型的沿y轴旋转0.015弧度
+      if (this.renderEnabled) {
+      console.log(111);
+       this.renderer.render(this.scene, this.camera ); //渲染界面
+      }
+      
     },
     cameraPosition(){
        let {x,y,z}  = this.cm.ps
