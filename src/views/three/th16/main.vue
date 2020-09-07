@@ -3,7 +3,7 @@
  * @Author: louiebb
  * @Date: 2020-08-20 14:45:11
  * @LastEditors: loueibb
- * @LastEditTime: 2020-09-04 10:26:08
+ * @LastEditTime: 2020-09-07 09:24:51
 -->
 <template>
   <div class="page-th14">
@@ -19,10 +19,11 @@
 <script>
 import TabBar from '../components/TabBar';
 import Raycaster from './Raycaster'
+import Boxselection from './Boxselection'
 
 
 export default {
-  name: 'th14',
+  name: 'th16',
   mixins: [],
   props: {
     prop: {
@@ -32,17 +33,22 @@ export default {
   },
   components: {
     TabBar,
-    Raycaster
+    Raycaster,
+    Boxselection
   },
   filter: {},
   computed: {},
   data() {
     return {
-      tabBar: 'Raycaster',
+      tabBar: 'Boxselection',
       tabBarData: [
         {
           label: '点击事件案例',
           value: 'Raycaster',
+        },
+        {
+          label: '框选案例',
+          value: 'Boxselection',
         }
       ],
     };

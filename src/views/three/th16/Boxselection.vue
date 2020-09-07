@@ -3,10 +3,10 @@
  * @Author: louiebb
  * @Date: 2020-08-20 14:45:11
  * @LastEditors: loueibb
- * @LastEditTime: 2020-09-07 09:23:49
+ * @LastEditTime: 2020-09-07 10:14:43
 -->
 <template>
-  <div class="page-raycaster">
+  <div class="page-boxselection">
     <div class="container" ref="container"></div>
   </div>
 </template>
@@ -16,10 +16,11 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import Stats from 'three/examples/jsm/libs/stats.module.js';
 import threeMixins from '@/mixins/three';
-import * as dat from 'dat.gui';
+import { log } from 'util';
+// import * as dat from 'dat.gui';
 
 export default {
-  name: 'Raycaster',
+  name: 'Boxselection',
   mixins: [threeMixins],
   props: {
     prop: {
@@ -33,6 +34,10 @@ export default {
   data() {
     return {
       gap: 300,
+      modelsList: [],
+      domClient: {}, //获取一下当前的dom的距离左上角的偏移量
+      down: {},
+      move: {},
     };
   },
   watch: {},
@@ -44,7 +49,7 @@ export default {
     this.init();
   },
   beforeDestroy() {
-    this.datGui.destroy();
+    // this.datGui.destroy();
     this.control.dispose();
   },
   destroyed() {},
@@ -56,7 +61,8 @@ export default {
       this.initCamera();
       this.initLight();
       this.initStats();
-      this.initGui();
+      this.initMesh();
+      // this.initGui();
 
       this.initControl();
       this.addTouch();
@@ -64,6 +70,7 @@ export default {
     },
     initControl() {
       this.control = new OrbitControls(this.camera, this.renderer.domElement);
+      this.control.enabled = false;
     },
     //初始化渲染器
     initRender() {
@@ -109,32 +116,35 @@ export default {
       this.stats.domElement.style.left = this.gap / 2 + 'px';
       this.container.appendChild(this.stats.dom);
     },
+    initMesh() {
+      //首先先删除掉当前场景所含有的立方体
+      this.deleteGroup('group');
+      //创建一个新的模型组
+      let group = new THREE.Group();
+      group.name = 'group';
+      let geometry = new THREE.BoxGeometry(10, 10, 10);
+      for (let i = 0; i < 300; i++) {
+        let material = new THREE.MeshLambertMaterial({
+          color: this.randomColor(),
+        });
+        let mesh = new THREE.Mesh(geometry, material);
+        //随机位置
+        mesh.position.set(
+          THREE.Math.randFloatSpread(200),
+          THREE.Math.randFloatSpread(200),
+          THREE.Math.randFloatSpread(200)
+        );
+        group.add(mesh);
+      }
+
+      this.scene.add(group);
+    },
     initGui() {
-      //声明一个保存需求修改的相关数据的对象
-      // 指向vue
       let that = this;
+      //声明一个保存需求修改的相关数据的对象
       this.gui = {
         createScene: function() {
-          //首先先删除掉当前场景所含有的立方体
-          that.deleteGroup('group');
-          //创建一个新的模型组
-          let group = new THREE.Group();
-          group.name = 'group';
-          let geometry = new THREE.BoxGeometry(10, 10, 10);
-          for (let i = 0; i < 30; i++) {
-            let material = new THREE.MeshLambertMaterial({
-              color: that.randomColor(),
-            });
-            let mesh = new THREE.Mesh(geometry, material);
-            //随机位置
-            mesh.position.set(
-              THREE.Math.randFloatSpread(200),
-              THREE.Math.randFloatSpread(200),
-              THREE.Math.randFloatSpread(200)
-            );
-            group.add(mesh);
-          }
-          that.scene.add(group);
+          that.initMesh();
         },
         exporterScene: function() {
           //首先将场景转成json对象
@@ -175,20 +185,21 @@ export default {
           //使用JSONLoader加载json格式文件
           let loader = new THREE.ObjectLoader();
 
-          loader.load('/server/loader/json/file.json', function(group) {
+          loader.load('../js/models/json/file.json', function(group) {
             console.log(group);
             that.scene.add(group);
           });
         },
       };
-      // add GUI controls
-      this.datGui = new dat.GUI();
+
+      //var datGui = new dat.GUI();
       //将设置属性添加到gui当中，gui.add(对象，属性，最小值，最大值）
-      this.datGui.add(this.gui, 'createScene').name('添加模型');
-      this.datGui.add(this.gui, 'exporterScene').name('导出模型');
-      this.datGui.add(this.gui, 'importerScene').name('导入模型');
-      this.datGui.add(this.gui, 'loaderScene').name('加载模型');
-      this.gui.loaderScene();
+      /*datGui.add(gui, "createScene").name("添加模型");
+        datGui.add(gui, "exporterScene").name("导出模型");
+        datGui.add(gui, "importerScene").name("导入模型");
+        datGui.add(gui, "loaderScene").name("加载模型");*/
+
+      this.gui.createScene();
     },
     //随机颜色
     randomColor() {
@@ -270,75 +281,143 @@ export default {
       this.stats.update();
       requestAnimationFrame(this.animate);
     },
-    onMouseClick(event) {
-      //声明射线和mouse变量
-      let raycaster = new THREE.Raycaster();
-      let mouse = new THREE.Vector2();
-      console.log({
-        x:event.clientX,
-        y:event.clientY,
-        w:this.w,
-        h:this.h,
-        gap:this.gap,
-        halfGap: this.gap / 2,
-        container:this.$refs.container.getBoundingClientRect()
-      },788);
-      
-      //通过鼠标点击的位置计算出射线所需要的点的位置，以屏幕中心为原点，值的范围为-1到1.
-      // mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-      // mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-      // 点击计算两边留白
-      let X = 0 // 当前真正的x
-      let halfGap =  this.gap / 2
-      let maximumX = this.w + halfGap // 鼠标不能超出的范围 即x必须在(halfGap ～ maximumX)
-      if (event.clientX>maximumX) {
-        return;
-      }
-      if(event.clientX >= halfGap){ // 大于左边留白
-        X = event.clientX - halfGap
-      }
-      let Y = 0  //当前真正的y
-      let topY = this.$refs.container.getBoundingClientRect().y
-      let maximumY = this.h + topY 
-      if (event.clientY>maximumY) {
-        return;
-      }
+    addTouch() {
+      //获取显示区域一半的大小
+      var half = {};
 
-      if(event.clientY >= topY){ // 大于上部留白
-        Y = event.clientY - topY
-      }
-      mouse.x = (X / this.w) * 2 - 1;
-      mouse.y = -(Y / this.h) * 2 + 1;
+      //获取一下当前的dom的距离左上角的偏移量
+      this.domClient = {};
 
-      //根据在屏幕的二维位置以及相机的矩阵更新射线的位置
-      raycaster.setFromCamera(mouse, this.camera);
+      //鼠标按下距离左上角的距离
+      this.down = {};
+      this.move = {};
 
-      // 获取射线直线和所有模型相交的数组集合
-      let intersects = raycaster.intersectObjects(this.scene.children, true); //增加第二个参数，可以遍历子子孙孙对象
+      this.max = {};
+      this.min = {};
 
-      //intersects是返回的一个数组，如果当前位置没有可选中的对象，那这个数组为空，否则为多个对象组成的数组，排列顺序为距离屏幕的距离从近到远的顺序排列
-      //数组的每一个子对象内包含：
-      // distance：距离屏幕的距离
-      // face：与射线相交的模型的面
-      // faceIndex：与射线相交的模型的面的下标
-      // object：与射线相交的模型对象
-      // point：射线与模型相交的点的位置坐标
-      // uv：与射线相交的模型的面的uv映射位置
+      this.modelsList = [];
 
-      console.log(intersects);
-      //将所有的相交的模型的颜色设置为红色，如果只需要将第一个触发事件，那就数组的第一个模型改变颜色即可
-      /*for (let i = 0; i < intersects.length; i++) {
-                intersects[i].object.material.color.set(0xff0000);
-            }*/
+      var group;
 
-      //判断当前数组是否为空,不为空则获取最近的的模型，将其颜色修改为红色
-      if (intersects.length > 0) {
-        intersects[0].object.material.color.set(0xff0000);
+      this.material = new THREE.MeshPhongMaterial({ color: 0xffffff });
+
+      //声明一个显示的拖拽框的div
+      this.div = document.createElement('div');
+      this.div.style.cssText =
+        'position:fixed; box-sizing:border-box; border:1px solid #ccc;';
+      let that = this;
+      this.renderer.domElement.addEventListener(
+        'mousedown',
+        function(e) {
+          if (e.button !== 0) {
+            return;
+          }
+
+          group = that.scene.getObjectByName('group');
+          half.height = that.renderer.domElement.offsetHeight / 2;
+          half.width = that.renderer.domElement.offsetWidth / 2;
+
+          that.domClient.x = that.renderer.domElement.getBoundingClientRect().left;
+          that.domClient.y = that.renderer.domElement.getBoundingClientRect().top;
+
+          that.down.x = e.clientX - that.domClient.x;
+          that.down.y = e.clientY - that.domClient.y;
+          console.log(
+            {
+              domElement: that.renderer.domElement,
+              offsetHeight: that.renderer.domElement.offsetHeight,
+              offsetWidth: that.renderer.domElement.offsetWidth,
+              half: half,
+              domClient: that.domClient,
+              down: that.down,
+            },
+            7888
+          );
+          for (let i = 0; i < group.children.length; i++) {
+            let box = new THREE.Box3();
+            box.expandByObject(group.children[i]);
+
+            //获取到平面的坐标
+            let vec3 = new THREE.Vector3();
+            box.getCenter(vec3);
+            let vec = vec3.project(that.camera);
+
+            that.modelsList.push({
+              component: group.children[i],
+              position: {
+                x: vec.x * half.width + half.width,
+                y: -vec.y * half.height + half.height,
+              },
+              normalMaterial: group.children[i].material,
+            });
+          }
+
+          //重置样式
+          that.div.style.left = 0;
+          that.div.style.top = 0;
+          that.div.style.width = 0;
+          that.div.style.height = 0;
+          document.body.appendChild(that.div);
+
+          //绑定鼠标按下移动事件和抬起事件
+          document.addEventListener('mousemove', that.movefun, false);
+          document.addEventListener('mouseup', that.upfun, false);
+        },
+        false
+      );
+    },
+    movefun(e) {
+      // console.log({
+      //   clientX: e.clientX,
+      //   clientY: e.clientY,
+      //   domClientX: this.domClient.x,
+      //   domClientY: this.domClient.y,
+      // });
+
+      this.move.x = e.clientX - this.domClient.x;
+      this.move.y = e.clientY - this.domClient.y;
+
+      //计算出来大小来设置拖拽框
+      this.min.x = Math.min(this.move.x, this.down.x);
+      this.min.y = Math.min(this.move.y, this.down.y);
+      this.max.x = Math.max(this.move.x, this.down.x);
+      this.max.y = Math.max(this.move.y, this.down.y);
+      let halfGap = this.gap / 2;
+      //设置div框
+      this.div.style.left = this.min.x + halfGap + 'px';
+      this.div.style.top = this.min.y + halfGap + 8 + 'px';
+      this.div.style.width = this.max.x - this.min.x + 'px';
+      this.div.style.height = this.max.y - this.min.y + 'px';
+
+      //判断修改哪些构件
+      for (let i = 0; i < this.modelsList.length; i++) {
+        let position = this.modelsList[i].position;
+        if (
+          position.x > this.min.x &&
+          position.x < this.max.x &&
+          position.y > this.min.y &&
+          position.y < this.max.y
+        ) {
+          this.modelsList[i].component.material = this.material;
+        } else {
+          this.modelsList[i].component.material = this.modelsList[
+            i
+          ].normalMaterial;
+        }
       }
     },
-    addTouch(){
-      this.$refs.container.addEventListener("click", this.onMouseClick, false)
-      // document.addEventListener("click", this.onMouseClick, false);
+    upfun() {
+      //清除事件
+      document.body.removeChild(this.div);
+      document.removeEventListener('mousemove', this.movefun, false);
+      document.removeEventListener('mouseup', this.upfun, false);
+
+      //将所有的模型修改为当前默认的模型
+      for (let i = 0; i < this.modelsList.length; i++) {
+        this.modelsList[i].component.material = this.modelsList[
+          i
+        ].normalMaterial;
+      }
     },
   },
 };

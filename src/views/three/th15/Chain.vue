@@ -3,10 +3,10 @@
  * @Author: louiebb
  * @Date: 2020-08-20 14:45:11
  * @LastEditors: loueibb
- * @LastEditTime: 2020-08-31 15:28:26
+ * @LastEditTime: 2020-09-07 09:24:04
 -->
 <template>
-  <div class="page-points">
+  <div class="page-chain">
     <div class="container"></div>
   </div>
 </template>
@@ -21,7 +21,7 @@ import threeMixins from "@/mixins/three";
 import * as dat from "dat.gui";
 
 export default {
-  name: "Points",
+  name: "Chain",
   mixins: [threeMixins],
   props: {
     prop: {
