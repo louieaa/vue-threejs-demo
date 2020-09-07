@@ -3,7 +3,7 @@
  * @Author: louiebb
  * @Date: 2020-08-20 14:45:11
  * @LastEditors: loueibb
- * @LastEditTime: 2020-09-07 10:58:58
+ * @LastEditTime: 2020-09-07 11:08:24
 -->
 <template>
   <div class="page-boxselection">
@@ -16,7 +16,6 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import Stats from 'three/examples/jsm/libs/stats.module.js';
 import threeMixins from '@/mixins/three';
-import { log } from 'util';
 // import * as dat from 'dat.gui';
 
 export default {
